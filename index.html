@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Patudo | Cuidado que faz a diferença</title>
+
+  <style>
+    :root {
+      --verde: #244f3f;
+      --verde-claro: #e9f0e9;
+      --creme: #f8f6f0;
+      --texto: #26352d;
+      --suave: #788078;
+      --borda: #e5e5dc;
+      --branco: #ffffff;
+      --dourado: #b79a65;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 32px 18px;
+      background: var(--creme);
+      color: var(--texto);
+      font-family: Arial, Helvetica, sans-serif;
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: auto;
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 8px 0 28px;
+      border-bottom: 1px solid var(--borda);
+    }
+
+    .marca {
+      color: var(--verde);
+      font-family: Georgia, serif;
+      font-size: 30px;
+      font-weight: bold;
+      letter-spacing: -1px;
+    }
+
+    .marca span {
+      color: var(--dourado);
+    }
+
+    .etiqueta {
+      color: var(--verde);
+      font-size: 12px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .introducao {
+      padding: 42px 0 24px;
+    }
+
+    .introducao .etiqueta {
+      margin-bottom: 10px;
+    }
+
+    h1 {
+      max-width: 650px;
+      margin: 0;
+      color: var(--verde);
+      font-family: Georgia, serif;
+      font-size: clamp(32px, 6vw, 48px);
+      font-weight: normal;
+      line-height: 1.15;
+    }
+
+    .introducao p {
+      max-width: 570px;
+      color: var(--suave);
+      font-size: 16px;
+    }
+
+    .painel {
+      margin-top: 22px;
+      padding: 30px;
+      background: var(--branco);
+      border: 1px solid var(--borda);
+      border-radius: 16px;
+    }
+
+    h2 {
+      margin: 0 0 8px;
+      color: var(--verde);
+      font-family: Georgia, serif;
+      font-size: 26px;
+      font-weight: normal;
+    }
+
+    .subtitulo {
+      margin: 0 0 24px;
+      color: var(--suave);
+      font-size: 14px;
+    }
+
+    .campos {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0 18px;
+    }
+
+    .campo {
+      min-width: 0;
+      margin-bottom: 17px;
+    }
+
+    .campo-completo {
+      grid-column: 1 / -1;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 7px;
+      font-size: 13px;
+      font-weight: bold;
+    }
+
+    input,
+    select {
+      width: 100%;
+      min-width: 0;
+      padding: 13px;
+      border: 1px solid var(--borda);
+      border-radius: 8px;
+      background: #fffefa;
+      color: var(--texto);
+      font: inherit;
+      font-size: 14px;
+    }
+
+    input:focus,
+    select:focus {
+      outline: 2px solid #a6c2ad;
+      border-color: var(--verde);
+    }
+
+    input[type="file"] {
+      padding: 10px;
+      background: var(--creme);
+    }
+
+    .ajuda {
+      display: block;
+      margin-top: 7px;
+      color: var(--suave);
+      font-size: 12px;
+    }
+
+    #previewFoto {
+      display: none;
+      width: 150px;
+      height: 130px;
+      margin-top: 12px;
+      border-radius: 10px;
+      object-fit: cover;
+      border: 1px solid var(--borda);
+    }
+
+    button {
+      border: 0;
+      border-radius: 8px;
+      padding: 13px 18px;
+      font: inherit;
+      font-size: 14px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.2s;
+    }
+
+    button:hover {
+      transform: translateY(-1px);
+    }
+
+    button:focus-visible {
+      outline: 3px solid #a6c2ad;
+      outline-offset: 3px;
+    }
+
+    .botao-principal {
+      width: 100%;
+      background: var(--verde);
+      color: white;
+    }
+
+    .botao-principal:hover {
+      background: #193b2e;
+    }
+
+    .aviso {
+      margin-top: 15px;
+      padding: 12px;
+      border-radius: 8px;
+      background: var(--verde-claro);
+      color: var(--verde);
+      font-size: 13px;
+    }
+
+    .secao-animais {
+      margin-top: 44px;
+    }
+
+    .topo-animais {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+
+    .topo-animais .campo {
+      width: 100%;
+      max-width: 300px;
+      margin-bottom: 0;
+    }
+
+    #listaAnimais {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+      margin-top: 22px;
+    }
+
+    .animal {
+      overflow: hidden;
+      min-width: 0;
+      background: var(--branco);
+      border: 1px solid var(--borda);
+      border-radius: 13px;
+    }
+
+    .foto-animal {
+      display: block;
+      width: 100%;
+      height: 210px;
+      background: var(--verde-claro);
+      object-fit: cover;
+    }
+
+    .sem-foto {
+      display: flex;
+      height: 120px;
+      align-items: center;
+      justify-content: center;
+      background: var(--verde-claro);
+      color: var(--verde);
+      font-family: Georgia, serif;
+      font-size: 18px;
+    }
+
+    .animal-conteudo {
+      padding: 20px;
+    }
+
+    .animal h3 {
+      margin: 0 0 10px;
+      color: var(--verde);
+      font-family: Georgia, serif;
+      font-size: 22px;
+      font-weight: normal;
+      overflow-wrap: anywhere;
+    }
+
+    .animal p {
+      margin: 7px 0;
+      color: var(--suave);
+      font-size: 13px;
+      overflow-wrap: anywhere;
+    }
+
+    .animal .botoes {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 18px;
+    }
+
+    .botao-whatsapp {
+      background: var(--verde);
+      color: white;
+    }
+
+    .excluir {
+      background: #f8eded;
+      color: #a43838;
+    }
+
+    #mensagem {
+      margin-top: 16px;
+      color: var(--verde);
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    footer {
+      margin-top: 40px;
+      padding-top: 20px;
+      border-top: 1px solid var(--borda);
+      color: var(--suave);
+      font-size: 12px;
+      text-align: center;
+    }
+
+    @media (max-width: 600px) {
+      body {
+        padding: 18px 12px;
+      }
+
+      .painel {
+        padding: 20px 16px;
+      }
+
+      .campos,
+      #listaAnimais {
+        grid-template-columns: 1fr;
+      }
+
+      .campo-completo {
+        grid-column: auto;
+      }
+
+      .introducao {
+        padding-top: 32px;
+      }
+
+      .topo-animais .campo {
+        max-width: none;
+      }
+
+      .foto-animal {
+        height: 230px;
+      }
+
+      header {
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="container">
+
+    <header>
+      <div class="marca">Patudo<span>.</span></div>
+      <div class="etiqueta">Cuidado com carinho</div>
+    </header>
+
+    <section class="introducao">
+      <div class="etiqueta">Atendimento pet</div>
+      <h1>Cuidado que faz a diferença.</h1>
+      <p>
+        Cadastre seu pet, envie uma foto e compartilhe
+        as informações para uma avaliação do atendimento.
+      </p>
+    </section>
+
+    <section class="painel">
+      <h2>Conheça seu pet</h2>
+      <p class="subtitulo">
+        Preencha os dados e escolha uma foto para avaliação.
+        Os campos com * são obrigatórios.
+      </p>
+
+      <form id="formAnimal">
+        <div class="campos">
+
+          <div class="campo">
+            <label for="nome">Nome do pet *</label>
+            <input id="nome" type="text" placeholder="Ex.: Mel" required>
+          </div>
+
+          <div class="campo">
+            <label for="especie">Espécie *</label>
+            <select id="especie" required>
+              <option value="">Selecione</option>
+              <option value="Cachorro">Cachorro</option>
+              <option value="Gato">Gato</option>
+              <option value="Outro">Outro</option>
+            </select>
+          </div>
+
+          <div class="campo">
+            <label for="raca">Raça</label>
+            <input id="raca" type="text" placeholder="Ex.: Shih-tzu">
+          </div>
+
+          <div class="campo">
+            <label for="porte">Porte *</label>
+            <select id="porte" required>
+              <option value="">Selecione</option>
+              <option value="Pequeno">Pequeno</option>
+              <option value="Médio">Médio</option>
+              <option value="Grande">Grande</option>
+            </select>
+          </div>
+
+          <div class="campo campo-completo">
+            <label for="tutor">Nome do tutor *</label>
+            <input id="tutor" type="text" placeholder="Seu nome" required>
+          </div>
+
+          <div class="campo campo-completo">
+            <label for="foto">Foto do pet *</label>
+            <input
+              id="foto"
+              type="file"
+              accept="image/jpeg,image/png,image/webp"
+              required
+            >
+            <span class="ajuda">
+              Escolha uma foto nítida. Tamanho máximo: 5 MB.
+            </span>
+            <img id="previewFoto" alt="Prévia da foto selecionada">
+          </div>
+
+        </div>
+
+        <button class="botao-principal" type="submit">
+          Preparar envio pelo WhatsApp
+        </button>
+      </form>
+
+      <div class="aviso">
+        Ao continuar, o WhatsApp será aberto com os dados preenchidos.
+        Você precisará anexar a foto na conversa antes de enviar.
+      </div>
+
+      <p id="mensagem" role="status" aria-live="polite"></p>
+    </section>
+
+    <section class="secao-animais">
+      <div class="topo-animais">
+        <div>
+          <div class="etiqueta">Seus registros</div>
+          <h2>Pets cadastrados</h2>
+        </div>
+
+        <div class="campo">
+          <label for="busca">Buscar pet ou tutor</label>
+          <input
+            id="busca"
+            type="search"
+            placeholder="Digite um nome..."
+          >
+        </div>
+      </div>
+
+      <div id="listaAnimais"></div>
+    </section>
+
+    <footer>
+      Patudo · Cuidado, respeito e carinho por cada pet.
+    </footer>
+
+  </main>
+
+  <script>
+    // TROQUE PELO SEU NÚMERO:
+    // Código do Brasil + DDD + telefone, sem espaços ou símbolos.
+    const NUMERO_WHATSAPP = "5511914899831";
+
+    const formulario = document.getElementById("formAnimal");
+    const lista = document.getElementById("listaAnimais");
+    const mensagem = document.getElementById("mensagem");
+    const busca = document.getElementById("busca");
+    const campoFoto = document.getElementById("foto");
+    const previewFoto = document.getElementById("previewFoto");
+
+    let animais = [];
+
+    try {
+      const dadosSalvos = localStorage.getItem("animais");
+      animais = dadosSalvos ? JSON.parse(dadosSalvos) : [];
+
+      if (!Array.isArray(animais)) {
+        animais = [];
+      }
+    } catch (erro) {
+      animais = [];
+      mensagem.textContent = "Não foi possível ler os cadastros salvos.";
+    }
+
+    // Mostrar uma prévia da foto escolhida.
+    campoFoto.addEventListener("change", function() {
+      const arquivo = campoFoto.files[0];
+
+      if (!arquivo) {
+        previewFoto.removeAttribute("src");
+        previewFoto.style.display = "none";
+        return;
+      }
+
+      if (!arquivo.type.startsWith("image/") || arquivo.size > 5 * 1024 * 1024) {
+        campoFoto.value = "";
+        previewFoto.removeAttribute("src");
+        previewFoto.style.display = "none";
+        mensagem.textContent = "Escolha uma imagem válida de até 5 MB.";
+        return;
+      }
+
+      const leitor = new FileReader();
+
+      leitor.onload = function() {
+        previewFoto.src = leitor.result;
+        previewFoto.style.display = "block";
+        mensagem.textContent = "";
+      };
+
+      leitor.onerror = function() {
+        mensagem.textContent = "Não foi possível abrir essa foto.";
+      };
+
+      leitor.readAsDataURL(arquivo);
+    });
+
+    // Reduzir a imagem para economizar espaço no navegador.
+    function reduzirFoto(arquivo) {
+      return new Promise(function(resolve, reject) {
+        const leitor = new FileReader();
+
+        leitor.onerror = function() {
+          reject(new Error("Não foi possível ler a foto."));
+        };
+
+        leitor.onload = function() {
+          const imagem = new Image();
+
+          imagem.onerror = function() {
+            reject(new Error("O arquivo não é uma imagem válida."));
+          };
+
+          imagem.onload = function() {
+            const limite = 800;
+            const escala = Math.min(
+              1,
+              limite / Math.max(imagem.width, imagem.height)
+            );
+
+            const canvas = document.createElement("canvas");
+            canvas.width = Math.round(imagem.width * escala);
+            canvas.height = Math.round(imagem.height * escala);
+
+            const contexto = canvas.getContext("2d");
+            contexto.drawImage(
+              imagem,
+              0,
+              0,
+              canvas.width,
+              canvas.height
+            );
+
+            resolve(canvas.toDataURL("image/jpeg", 0.75));
+          };
+
+          imagem.src = leitor.result;
+        };
+
+        leitor.readAsDataURL(arquivo);
+      });
+    }
+
+    function salvarAnimais() {
+      try {
+        localStorage.setItem("animais", JSON.stringify(animais));
+        return true;
+      } catch (erro) {
+        mensagem.textContent =
+          "Não foi possível salvar. O armazenamento pode estar cheio.";
+        return false;
+      }
+    }
+
+    function mostrarAnimais() {
+      lista.replaceChildren();
+
+      const termo = busca.value.trim().toLowerCase();
+
+      const filtrados = animais.filter(function(animal) {
+        return animal.nome.toLowerCase().includes(termo) ||
+               animal.tutor.toLowerCase().includes(termo);
+      });
+
+      if (filtrados.length === 0) {
+        lista.textContent = termo
+          ? "Nenhum pet encontrado."
+          : "Nenhum pet cadastrado ainda.";
+        return;
+      }
+
+      filtrados.forEach(function(animal) {
+        const cartao = document.createElement("article");
+        cartao.className = "animal";
+
+        if (animal.foto) {
+          const imagem = document.createElement("img");
+          imagem.className = "foto-animal";
+          imagem.src = animal.foto;
+          imagem.alt = "Foto de " + animal.nome;
+          cartao.appendChild(imagem);
+        } else {
+          const semFoto = document.createElement("div");
+          semFoto.className = "sem-foto";
+          semFoto.textContent = "Foto não disponível";
+          cartao.appendChild(semFoto);
+        }
+
+        const conteudo = document.createElement("div");
+        conteudo.className = "animal-conteudo";
+
+        const titulo = document.createElement("h3");
+        titulo.textContent = animal.nome;
+
+        const especie = document.createElement("p");
+        especie.textContent = "Espécie: " + animal.especie;
+
+        const raca = document.createElement("p");
+        raca.textContent = "Raça: " + (animal.raca || "Não informada");
+
+        const porte = document.createElement("p");
+        porte.textContent = "Porte: " + animal.porte;
+
+        const tutor = document.createElement("p");
+        tutor.textContent = "Tutor: " + animal.tutor;
+
+        const botoes = document.createElement("div");
+        botoes.className = "botoes";
+
+        const botaoWhatsApp = document.createElement("button");
+        botaoWhatsApp.className = "botao-whatsapp";
+        botaoWhatsApp.type = "button";
+        botaoWhatsApp.textContent = "Enviar dados";
+
+        botaoWhatsApp.addEventListener("click", function() {
+          enviarWhatsApp(animal);
+        });
+
+        const botaoExcluir = document.createElement("button");
+        botaoExcluir.className = "excluir";
+        botaoExcluir.type = "button";
+        botaoExcluir.textContent = "Excluir";
+
+        botaoExcluir.addEventListener("click", function() {
+          excluirAnimal(animais.indexOf(animal));
+        });
+
+        botoes.append(botaoWhatsApp, botaoExcluir);
+
+        conteudo.append(titulo, especie, raca, porte, tutor, botoes);
+        cartao.appendChild(conteudo);
+        lista.appendChild(cartao);
+      });
+    }
+
+    // Preparar os dados para compartilhar no WhatsApp.
+    function enviarWhatsApp(animal) {
+      const texto =
+        "Olá! Quero solicitar uma avaliação para meu pet. 🐾\n\n" +
+        "Nome: " + animal.nome + "\n" +
+        "Espécie: " + animal.especie + "\n" +
+        "Raça: " + (animal.raca || "Não informada") + "\n" +
+        "Porte: " + animal.porte + "\n" +
+        "Tutor: " + animal.tutor + "\n\n" +
+        "Vou anexar a foto do pet nesta conversa.";
+
+      const url =
+        "https://wa.me/" + NUMERO_WHATSAPP +
+        "?text=" + encodeURIComponent(texto);
+
+      window.open(url, "_blank");
+      mensagem.textContent =
+        "O WhatsApp foi aberto. Anexe a foto e envie a mensagem.";
+    }
+
+    // Cadastrar o pet e preparar a mensagem.
+    formulario.addEventListener("submit", async function(evento) {
+      evento.preventDefault();
+
+      const nome = document.getElementById("nome").value.trim();
+      const especie = document.getElementById("especie").value;
+      const raca = document.getElementById("raca").value.trim();
+      const porte = document.getElementById("porte").value;
+      const tutor = document.getElementById("tutor").value.trim();
+      const arquivo = campoFoto.files[0];
+
+      if (!nome || !especie || !porte || !tutor || !arquivo) {
+        mensagem.textContent = "Preencha os campos e escolha uma foto.";
+        return;
+      }
+
+      if (!arquivo.type.startsWith("image/") ||
+          arquivo.size > 5 * 1024 * 1024) {
+        mensagem.textContent = "A foto precisa ser uma imagem de até 5 MB.";
+        return;
+      }
+
+      // Abrir a janela durante o clique para reduzir bloqueios do navegador.
+      const janela = window.open("about:blank", "_blank");
+
+      mensagem.textContent = "Preparando cadastro e foto...";
+
+      try {
+        const foto = await reduzirFoto(arquivo);
+
+        const novoAnimal = {
+          nome: nome,
+          especie: especie,
+          raca: raca,
+          porte: porte,
+          tutor: tutor,
+          foto: foto
+        };
+
+        animais.push(novoAnimal);
+
+        if (!salvarAnimais()) {
+          animais.pop();
+
+          if (janela) {
+            janela.close();
+          }
+
+          return;
+        }
+
+        const texto =
+          "Olá! Quero solicitar uma avaliação para meu pet. 🐾\n\n" +
+          "Nome: " + nome + "\n" +
+          "Espécie: " + especie + "\n" +
+          "Raça: " + (raca || "Não informada") + "\n" +
+          "Porte: " + porte + "\n" +
+          "Tutor: " + tutor + "\n\n" +
+          "Vou anexar a foto do pet nesta conversa.";
+
+        const url =
+          "https://wa.me/" + NUMERO_WHATSAPP +
+          "?text=" + encodeURIComponent(texto);
+
+        if (janela) {
+          janela.location.href = url;
+        } else {
+          window.location.href = url;
+        }
+
+        mostrarAnimais();
+        formulario.reset();
+        previewFoto.removeAttribute("src");
+        previewFoto.style.display = "none";
+
+        mensagem.textContent =
+          "Cadastro salvo! No WhatsApp, anexe a foto e envie a mensagem.";
+
+      } catch (erro) {
+        if (janela) {
+          janela.close();
+        }
+
+        mensagem.textContent =
+          "Não foi possível processar a foto. Tente escolher outra imagem.";
+      }
+    });
+
+    function excluirAnimal(indice) {
+      if (indice < 0) {
+        return;
+      }
+
+      const removido = animais.splice(indice, 1)[0];
+
+      if (!salvarAnimais()) {
+        animais.splice(indice, 0, removido);
+        return;
+      }
+
+      mostrarAnimais();
+      mensagem.textContent = "Cadastro excluído.";
+    }
+
+    busca.addEventListener("input", mostrarAnimais);
+
+    mostrarAnimais();
+  </script>
+</body>
+</html>
